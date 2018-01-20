@@ -4,11 +4,29 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var io = require('socket.io')();
+var config = require(__dirname + '/config.js');
+var db = require('rethinkdb');
 
+// Routes
 var index = require('./routes/index');
-var users = require('./routes/users');
+var debit = require('./routes/debit');
+var consommation = require('./routes/consommation');
 
+// Socket.io
 var app = express();
+app.io = io;
+
+db.connect(config.rethinkdb)
+  .then(conn => db.table('debit').orderBy({index: 'id'}).changes().run(conn, function(err, cursor){
+    cursor.each((err, row) => {
+      if (err) throw err;
+      console.log(row);
+      if(row.new_val != null)
+        io.emit('debit', row.new_val);
+    });
+  }));
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +41,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/debit', debit);
+app.use('/consommation', consommation);
+
+io.on('connection', function(socket) {
+  console.log('a user connected');
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
