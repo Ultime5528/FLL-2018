@@ -218,7 +218,7 @@ class App extends React.Component {
           <Paper className={classes.conseils}>
             <Typography type='title'>Conseils</Typography>
             {messages.map( (c) =>  <Typography type='subheading'>{c.texte}</Typography>)}
-            <Typography type='subheading'><a target="_blank" href='https://www.epa.gov/watersense/watersense-products'>Water-Sense Products</a></Typography>
+            <Typography type='subheading'>La <a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau/economie-d-eau-potable'>Ville de Trois-Rivières</a> propose plusieurs moyens d'économiser de l'eau.</Typography>
           </Paper>}
           {messages.length == 0 &&
           <Paper className={classes.conseils}>
