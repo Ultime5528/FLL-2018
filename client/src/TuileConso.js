@@ -26,20 +26,17 @@ class TuileConso extends React.Component {
 
     render() {
         
-        const { classes, nom, debit, noCapteur, ...other } = this.props;
+        const { classes, nom, noCapteur, totalConso, ...other } = this.props;
 
-        let nomMaj = (!nom || nom.length === 0) ? ' ' : nom.charAt(0).toUpperCase() + nom.slice(1) + " - Consommation Journalière";
-        let debitRound = debit.toFixed(2);
-        let moy = debit.toFixed(2);
+        let nomMaj = (!nom || nom.length === 0) ? ' ' : nom.charAt(0).toUpperCase() + nom.slice(1) + " - Total";
 
         return (
             <Card {...other}>
                 <CardContent>
                     <Typography type='title'>{nomMaj}</Typography>
-                    <Typography type='subheading'>Capteur {noCapteur}</Typography>
+                    <Typography type='subheading'>{noCapteur}</Typography>
                     <Divider className={classes.divider}/>
-                    <Typography type='subheading'>{debitRound} L</Typography>
-                    <Typography type='subheading'>Moyenne d'utilisation: {moy}L</Typography>
+                    <Typography type='subheading'>{totalConso ? totalConso.toFixed(2) : 0} L</Typography>
                 </CardContent>
             </Card>
         );

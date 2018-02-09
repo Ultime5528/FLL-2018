@@ -9,13 +9,14 @@ import MenuIcon from 'material-ui-icons-next/Menu';
 import Drawer from 'material-ui-next/Drawer'
 import {MenuItem} from 'material-ui-next/Menu'
 import Divider from 'material-ui-next/Divider'
-import waterdrop from './water-drop.svg'
+import Logo from './Digito.svg'
 import TuileDebit from './TuileDebit'
 import TuileConso from './TuileConso'
 import Grid from 'material-ui-next/Grid'
 import Paper from 'material-ui-next/Paper'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui-next/Table';
 import io from 'socket.io-client';
+import * as Messages from './Messages';
 
 const socket = io();
 
@@ -33,12 +34,13 @@ const styles = {
   drawerHeader: {
     display: 'flex',
     'align-items': 'center',
-    margin: 12
+    'flex-direction': 'column',
+    marginTop: 8,
+    marginBottom: 8
   },
   
   drawerLogo : {
-    width: 70,
-    marginRight: 12
+    height: 100,
   },
   
   tuileContainer: {
@@ -49,6 +51,11 @@ const styles = {
   tuile: {
     //width: 200,
     //margin: 12
+  },
+
+  conseils: {
+    margin: 12,
+    padding: 12
   }
 
 };
@@ -57,13 +64,18 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {drawerOpen: false, debits: [], consommations: [] };
+    this.state = {drawerOpen: false, debits: [], consommations: [], page: 0};
     this.updateDebit = this.updateDebit.bind(this);
+    this.setPage = this.setPage.bind(this);
   }
 
 
   toggleDrawer = (open) => () => {
     this.setState( { drawerOpen: open } );
+  }
+
+  setPage = (num) => () => {
+    this.setState( {page: num, drawerOpen: false} );
   }
 
   updateDebit(data) {
@@ -99,6 +111,7 @@ class App extends React.Component {
       .then(() => socket.on('debit', this.updateDebit))
       .catch(err => console.error(err));
 
+
   }
 
 
@@ -115,14 +128,59 @@ class App extends React.Component {
 
   mapConsoTuiles = classTuile => (row) => (
     <Grid item key={row.id} xs={9} sm={3} md={3}>
-      <TuileConso nom={row.nom} key={row.id} noCapteur={row.id} debit={row.debit} className={classTuile}/>  
+      <TuileConso nom={row.nom} key={row.id} noCapteur={"Capteur " + row.id} totalConso={row.totalConso} className={classTuile}/>  
     </Grid>
   );
 
   render() {
     const { classes } = this.props;
 
-    let totalConso = [];
+    let messages = [];
+
+    if(this.state.debits[0] && this.state.debits[1]){
+      
+      let today = new Date();
+      let conseilDouche = false;
+      let conseilToilette = false;
+
+      console.log(today);
+
+      this.state.debits[0].totalConso = 0;
+      this.state.debits[1].totalConso = 0;
+
+      for(let i = 0; i < this.state.consommations.length; i++){
+        let conso = this.state.consommations[i];
+        if(conso.dateDebut.getFullYear() === today.getFullYear()
+          && conso.dateDebut.getDate() === today.getDate()
+          && conso.dateDebut.getMonth() === today.getMonth()) {
+
+            console.log("Ligne " + i);
+            console.log(conso);
+
+            if(conso.capteurId === 1 && conso.quantite >= 29.0)
+              conseilDouche = true;
+
+            if(conso.capteurId === 2 && conso.quantite >= 18.0)
+              conseilToilette = true;
+
+            this.state.debits[conso.capteurId - 1].totalConso += conso.quantite;
+
+        }
+      }
+      
+      if(conseilDouche)
+        messages.push(Messages.conseilsDouche[Math.floor(Math.random() * Messages.conseilsDouche.length)]);
+
+      if(conseilToilette)
+        messages.push(Messages.conseilsToilette[Math.floor(Math.random() * Messages.conseilsToilette.length)]);
+
+      if(true)//this.state.debits[0].totalConso + this.state.debits[1].totalConso >= 365)
+        messages.push(Messages.conseilsEnsemble[Math.floor(Math.random() * Messages.conseilsEnsemble.length)]);
+
+    }
+
+ 
+
 
     console.log(this.state.consommations);
 
@@ -130,36 +188,59 @@ class App extends React.Component {
       <div>
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={classes.menuButton} aria-label="Menu" onClick={this.toggleDrawer(true)}>
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={this.toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
-            <Typography type="title"  className={classes.flex}>
+            {this.state.page === 0 &&
+            <Typography type="title" color="inherit" className={classes.flex}>
               Accueil
-            </Typography>
+            </Typography>}
+            {this.state.page === 1 &&
+            <Typography type="title" color="inherit" className={classes.flex}>
+              Historique
+            </Typography>}
           </Toolbar>
         </AppBar>
 
         <Drawer open={this.state.drawerOpen} onClose={this.toggleDrawer(false)}>
           <div className={classes.drawerHeader}>
-            <img src={waterdrop} className = {classes.drawerLogo} style={{display: 'inline'}} alt='logo'/>
+            <img src={Logo} className = {classes.drawerLogo} style={{display: 'inline'}} alt='logo'/>
             <div>
-              <Typography type='title' >Le super compteur qui n'a pas de nom</Typography>
               <Typography type='subheading' >Ultime 22369</Typography>
             </div>
           </div>
           <Divider/>
-          <MenuItem>Accueil</MenuItem>
-          <MenuItem>Historique</MenuItem>
-          <MenuItem>Consommation Journalière</MenuItem>
+          <MenuItem onClick={this.setPage(0)}>Accueil</MenuItem>
+          <MenuItem onClick={this.setPage(1)}>Historique</MenuItem>
         </Drawer>
-        {true && <div style={{margin: 8}}>
+        {this.state.page === 0 && <div style={{margin: 8}}>
+          {messages.length > 0 &&
+          <Paper className={classes.conseils}>
+            <Typography type='title'>Conseils</Typography>
+            {messages.map( (c) =>  <Typography type='subheading'>{c.texte}</Typography>)}
+            <Typography type='subheading'><a target="_blank" href='https://www.epa.gov/watersense/watersense-products'>Water-Sense Products</a></Typography>
+          </Paper>}
+          {messages.length == 0 &&
+          <Paper className={classes.conseils}>
+            <Typography type='title'>Félicitations!</Typography>
+            <Typography type='subheading'>{Messages.felicitations[Math.floor(Math.random() * Messages.felicitations.length)].texte}</Typography>
+            <Typography type='subheading'><a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau'>Ville de Trois-Rivières -> Eau</a></Typography>
+          </Paper>}
           <Grid container spacing={16} style={{margin: 0, width:'100%'}} className={classes.tuileContainer}>
             {this.state.debits.map(this.mapDebitTuiles(classes.tuile))}
           </Grid>
           <Grid container spacing={16} style={{margin: 0, width:'100%'}} className={classes.tuileContainer}>
             {this.state.debits.map(this.mapConsoTuiles(classes.tuile))}
+            <Grid item key={2} xs={9} sm={3} md={3}>
+              <TuileConso nom="Aujourd'hui"
+              key="2"
+              noCapteur="Capteurs 1 et 2"
+              totalConso= {this.state.debits[0] && this.state.debits[1] ? this.state.debits[0].totalConso + this.state.debits[1].totalConso : 0}
+              className={classes.tuile}/>  
+            </Grid>
           </Grid>
-          <Paper>
+          </div>}
+          {this.state.page === 1 && <Paper>
             <Table>
               <TableHead>
                 <TableRow>
@@ -174,20 +255,43 @@ class App extends React.Component {
                   return (
                     <TableRow key={n.dateDebut}>
                       <TableCell>{n.capteurId}</TableCell>
-                      <TableCell>{n.dateDebut.toString()}</TableCell>
-                      <TableCell>{n.dateFin.toString()}</TableCell>
-                      <TableCell numeric>{n.quantite}</TableCell>
+                      <TableCell>{this.formatDate(n.dateDebut)}</TableCell>
+                      <TableCell>{this.formatDate(n.dateFin)}</TableCell>
+                      <TableCell numeric>{n.quantite.toFixed(2)}</TableCell>
                     </TableRow>
                   );
                 })}
               </TableBody>
             </Table>
-          </Paper>
-        </div>}
+          </Paper>}
+        
         
         
       </div>
     );
+  }
+
+
+  formatDate(date) {
+    let DateString = date.getDate().toString();
+    let MonthString = (date.getMonth() + 1).toString();
+    let HourString = (date.getHours() + 1).toString();
+    let MinutesString = date.getMinutes().toString();
+
+    if(date.getDate() < 10){
+      DateString = "0" + date.getDate();
+    }
+    if(date.getMonth() + 1 < 10){
+      MonthString = "0" + (date.getMonth() + 1);
+    }
+    if(date.getHours() + 1 < 10){
+      HourString = "0" + (date.getHours() + 1);
+    }
+    if(date.getMinutes() < 10){
+      MinutesString = "0" + date.getMinutes();
+    }
+
+    return  date.getFullYear() +  "/" + MonthString + "/" + DateString + " " + HourString + ":" + MinutesString;
   }
 
 }
