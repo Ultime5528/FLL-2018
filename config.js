@@ -1,6 +1,6 @@
 module.exports = {
     rethinkdb: {
-        host: "raspberrypi.local",
+        host: "localhost",
         port: 28015,
         authKey: "",
         db: "eau"

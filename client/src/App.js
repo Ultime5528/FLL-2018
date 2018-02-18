@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui-next/styles';
-import AppBar from 'material-ui-next/AppBar';
-import Toolbar from 'material-ui-next/Toolbar';
-import Typography from 'material-ui-next/Typography';
-import IconButton from 'material-ui-next/IconButton';
-import MenuIcon from 'material-ui-icons-next/Menu';
-import Drawer from 'material-ui-next/Drawer'
-import {MenuItem} from 'material-ui-next/Menu'
-import Divider from 'material-ui-next/Divider'
+import { withStyles } from 'material-ui/styles';
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui-icons/Menu';
+import Drawer from 'material-ui/Drawer'
+import {MenuItem} from 'material-ui/Menu'
+import Divider from 'material-ui/Divider'
 import Logo from './Digito.svg'
 import TuileDebit from './TuileDebit'
 import TuileConso from './TuileConso'
-import Grid from 'material-ui-next/Grid'
-import Paper from 'material-ui-next/Paper'
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui-next/Table';
+import Grid from 'material-ui/Grid'
+import Paper from 'material-ui/Paper'
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import io from 'socket.io-client';
 import * as Messages from './Messages';
 

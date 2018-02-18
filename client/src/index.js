@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import 'typeface-roboto';
 import registerServiceWorker from './registerServiceWorker';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui-next/styles';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 const theme = createMuiTheme({
     palette: { 

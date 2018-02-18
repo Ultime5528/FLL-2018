@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui-next/styles';
-import Card, { CardContent } from 'material-ui-next/Card';
-import Typography from 'material-ui-next/Typography';
-import { LinearProgress } from 'material-ui-next/Progress'
-import Divider from 'material-ui-next/Divider'
+import { withStyles } from 'material-ui/styles';
+import Card, { CardContent } from 'material-ui/Card';
+import Typography from 'material-ui/Typography';
+import { LinearProgress } from 'material-ui/Progress'
+import Divider from 'material-ui/Divider'
 
 const styles = theme => ({
     divider : {

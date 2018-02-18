@@ -16,5 +16,8 @@
     "rethinkdb": "^2.3.3",
     "serve-favicon": "~2.4.5",
     "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }
