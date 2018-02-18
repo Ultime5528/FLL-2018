@@ -174,7 +174,7 @@ class App extends React.Component {
       if(conseilToilette)
         messages.push(Messages.conseilsToilette[Math.floor(Math.random() * Messages.conseilsToilette.length)]);
 
-      if(true)//this.state.debits[0].totalConso + this.state.debits[1].totalConso >= 365)
+      if(this.state.debits[0].totalConso + this.state.debits[1].totalConso >= 365)
         messages.push(Messages.conseilsEnsemble[Math.floor(Math.random() * Messages.conseilsEnsemble.length)]);
 
     }
@@ -214,7 +214,7 @@ class App extends React.Component {
           <MenuItem onClick={this.setPage(1)}>Historique</MenuItem>
         </Drawer>
         {this.state.page === 0 && <div style={{margin: 8}}>
-          {messages.length > 0 &&
+	    {messages.length > 0 &&
           <Paper className={classes.conseils}>
             <Typography type='title'>Conseils</Typography>
             {messages.map( (c) =>  <Typography type='subheading'>{c.texte}</Typography>)}

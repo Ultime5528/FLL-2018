@@ -1,48 +1,48 @@
-let conseilsDouche = [
+ï»¿let conseilsDouche = [
     {
-        texte: "Votre consommation d'eau pour une douche a dépassé 29 litres d'eau: n'attendez pas que l’eau soit chaude pour commencer à vous laver."
+        texte: "Votre consommation d'eau pour une douche a dÃ©passÃ© 29 litres d'eau: n'attendez pas que lâ€™eau soit chaude pour commencer Ã  vous laver."
     },
     {
-        texte: "Vous avez utilisé plus de 29 litres d'eau aujourd'hui pour une seule douche : ne chantez pas sous la douche plus de 5 minutes."
+        texte: "Vous avez utilisÃ© plus de 29 litres d'eau aujourd'hui pour une seule douche : ne chantez pas sous la douche plus de 5 minutes."
     },
     {
-        texte: "Votre douche a consommé plus de 29 litres d'eau: vous devriez choisir une pomme de douche homologuée Water-Sense."
+        texte: "Votre douche a consommÃ© plus de 29 litres d'eau: vous devriez choisir une pomme de douche homologuÃ©e Water-Sense."
     }
 ];
 
 let conseilsToilette = [
     {
-        texte: "Votre toilette a dépassé 18 litres d'eau pour une seule chasse : vous devriez changer pour une toilette écologique qui consomme moins."
+        texte: "Votre toilette a dÃ©passÃ© 18 litres d'eau pour une seule chasse : vous devriez changer pour une toilette Ã©cologique qui consomme moins."
     },
     {
-        texte: "Votre toilette a dépensée plus de 18 litres d'eau pour une seule chasse : vous pourriez ajouter au réservoir une bouteille pleine de deux litres pour diminuer le volume d’eau."
+        texte: "Votre toilette a dÃ©pensÃ©e plus de 18 litres d'eau pour une seule chasse : vous pourriez ajouter au rÃ©servoir une bouteille pleine de deux litres pour diminuer le volume dâ€™eau."
     }
 ]
 
 let felicitations = [
     {
-        texte: "Votre consommation est économique, continuez comme ça! Vous contribuez à diminuer les coûts d'eau potable de votre municipalité!"
+        texte: "Votre consommation est Ã©conomique, continuez comme Ã§a! Vous contribuez Ã  diminuer les coÃ»ts d'eau potable de votre municipalitÃ©!"
     },
     {
-        texte: "Votre consommation est éco-responsable, bravo! Vous assurez un avenir meilleur aux générations futures."
+        texte: "Votre consommation est Ã©co-responsable, bravo! Vous assurez un avenir meilleur aux gÃ©nÃ©rations futures."
     },
     {
-        texte: "Votre consommation respecte l'environnement, wow! Petit à petit, vous aidez la planète."
+        texte: "Votre consommation respecte l'environnement, wow! Petit Ã  petit, vous aidez la planÃ¨te."
     },
 ]
 
 let conseilsEnsemble = [
     {
-        texte: "Votre consommation journalière dépasse les 365 litres d'eau : vous dépassez l’objectif fixé par la ville de Trois-Rivières."
+        texte: "Votre consommation journaliÃ¨re dÃ©passe les 365 litres d'eau : vous dÃ©passez lâ€™objectif fixÃ© par la ville de Trois-RiviÃ¨res."
     },
     {
-        texte: "Votre consommation est très élevée : vous avez utilisé plus de 365 litres d'eau aujourd'hui. Vos habitudes nuisent au développement durable de la ville."
+        texte: "Votre consommation est trÃ¨s Ã©levÃ©e : vous avez utilisÃ© plus de 365 litres d'eau aujourd'hui. Vos habitudes nuisent au dÃ©veloppement durable de la ville."
     },
     {
-        texte: "Votre consommation coûte cher : votre utilisation sollicite les usines de traitement des eaux."
+        texte: "Votre consommation coÃ»te cher : votre utilisation sollicite les usines de traitement des eaux."
     },
     {
-        texte: "Vous avez utilisé plus de 365 litres d'eau aujourd'hui : avez-vous pensé à ne tirez la chasse qu'une seule fois si possible?"
+        texte: "Vous avez utilisÃ© plus de 365 litres d'eau aujourd'hui : avez-vous pensÃ© Ã  ne tirez la chasse qu'une seule fois si possible?"
     },
 ]
 
