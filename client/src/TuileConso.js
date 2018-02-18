@@ -33,10 +33,10 @@ class TuileConso extends React.Component {
         return (
             <Card {...other}>
                 <CardContent>
-                    <Typography type='title'>{nomMaj}</Typography>
-                    <Typography type='subheading'>{noCapteur}</Typography>
+                    <Typography variant='title'>{nomMaj}</Typography>
+                    <Typography variant='subheading'>{noCapteur}</Typography>
                     <Divider className={classes.divider}/>
-                    <Typography type='subheading'>{totalConso ? totalConso.toFixed(2) : 0} L</Typography>
+                    <Typography variant='subheading'>{totalConso ? totalConso.toFixed(2) : 0} L</Typography>
                 </CardContent>
             </Card>
         );
@@ -45,12 +45,5 @@ class TuileConso extends React.Component {
 
 }
 
-
-TuileConso.propTypes = {
-    nom: PropTypes.string,
-    noCapteur: PropTypes.number,
-    debit: PropTypes.number,
-    classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(TuileConso);

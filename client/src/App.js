@@ -24,6 +24,7 @@ const styles = {
   
   flex: {
     flex: 1,
+
   },
   
   menuButton: {
@@ -35,12 +36,12 @@ const styles = {
     display: 'flex',
     'align-items': 'center',
     'flex-direction': 'column',
-    marginTop: 8,
-    marginBottom: 8
+    margin: 16
   },
   
   drawerLogo : {
     height: 100,
+    paddingBottom: 16
   },
   
   tuileContainer: {
@@ -121,13 +122,13 @@ class App extends React.Component {
   }
 
   mapDebitTuiles = classTuile => (row) => (
-    <Grid item key={row.id} xs={12} sm={3} md={3}>
+    <Grid item key={row.id} xs={12} sm={6} md={3}>
       <TuileDebit nom={row.nom} key={row.id} noCapteur={row.id} debit={row.debit} className={classTuile}/>  
     </Grid>
   );
 
   mapConsoTuiles = classTuile => (row) => (
-    <Grid item key={row.id} xs={9} sm={3} md={3}>
+    <Grid item key={row.id} xs={12} sm={6} md={3}>
       <TuileConso nom={row.nom} key={row.id} noCapteur={"Capteur " + row.id} totalConso={row.totalConso} className={classTuile}/>  
     </Grid>
   );
@@ -181,9 +182,6 @@ class App extends React.Component {
 
  
 
-
-    console.log(this.state.consommations);
-
     return (
       <div>
         <AppBar position="static">
@@ -192,11 +190,11 @@ class App extends React.Component {
               <MenuIcon />
             </IconButton>
             {this.state.page === 0 &&
-            <Typography type="title" color="inherit" className={classes.flex}>
+            <Typography variant="title" color="inherit" className={classes.flex}>
               Accueil
             </Typography>}
             {this.state.page === 1 &&
-            <Typography type="title" color="inherit" className={classes.flex}>
+            <Typography variant="title" color="inherit" className={classes.flex}>
               Historique
             </Typography>}
           </Toolbar>
@@ -206,7 +204,7 @@ class App extends React.Component {
           <div className={classes.drawerHeader}>
             <img src={Logo} className = {classes.drawerLogo} style={{display: 'inline'}} alt='logo'/>
             <div>
-              <Typography type='subheading' >Ultime 22369</Typography>
+              <Typography variant='subheading' >Ultime 22369</Typography>
             </div>
           </div>
           <Divider/>
@@ -216,22 +214,22 @@ class App extends React.Component {
         {this.state.page === 0 && <div style={{margin: 8}}>
 	    {messages.length > 0 &&
           <Paper className={classes.conseils}>
-            <Typography type='title'>Conseils</Typography>
-            {messages.map( (c) =>  <Typography type='subheading'>{c.texte}</Typography>)}
-            <Typography type='subheading'>La <a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau/economie-d-eau-potable'>Ville de Trois-Rivières</a> propose plusieurs moyens d'économiser de l'eau.</Typography>
+            <Typography variant='title'>Conseils</Typography>
+            {messages.map( (c) =>  <Typography variant='subheading'>{c.texte}</Typography>)}
+            <Typography variant='subheading'>La <a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau/economie-d-eau-potable'>Ville de Trois-Rivières</a> propose plusieurs moyens d'économiser de l'eau.</Typography>
           </Paper>}
           {messages.length == 0 &&
           <Paper className={classes.conseils}>
-            <Typography type='title'>Félicitations!</Typography>
-            <Typography type='subheading'>{Messages.felicitations[Math.floor(Math.random() * Messages.felicitations.length)].texte}</Typography>
-            <Typography type='subheading'><a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau'>Ville de Trois-Rivières -> Eau</a></Typography>
+            <Typography variant='title'>Félicitations!</Typography>
+            <Typography variant='subheading'>{Messages.felicitations[Math.floor(Math.random() * Messages.felicitations.length)].texte}</Typography>
+            <Typography variant='subheading'><a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau'>Ville de Trois-Rivières -> Eau</a></Typography>
           </Paper>}
           <Grid container spacing={16} style={{margin: 0, width:'100%'}} className={classes.tuileContainer}>
             {this.state.debits.map(this.mapDebitTuiles(classes.tuile))}
           </Grid>
           <Grid container spacing={16} style={{margin: 0, width:'100%'}} className={classes.tuileContainer}>
             {this.state.debits.map(this.mapConsoTuiles(classes.tuile))}
-            <Grid item key={2} xs={9} sm={3} md={3}>
+            <Grid item key={2} xs={12} sm={6} md={3}>
               <TuileConso nom="Aujourd'hui"
               key="2"
               noCapteur="Capteurs 1 et 2"

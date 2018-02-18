@@ -34,11 +34,11 @@ class TuileDebit extends React.Component {
         return (
             <Card {...other}>
                 <CardContent>
-                    <Typography type='title'>{nomMaj}</Typography>
-                    <Typography type='subheading'>Capteur {noCapteur}</Typography>
+                    <Typography variant='title'>{nomMaj}</Typography>
+                    <Typography variant='subheading'>Capteur {noCapteur}</Typography>
                     <Divider className={classes.divider}/>
-                    <Typography type='subheading'>{debitRound} L/min</Typography>
-                    <LinearProgress mode='determinate' value={(debit - min) * 100 / (max - min) }  />
+                    <Typography variant='subheading'>{debitRound} L/min</Typography>
+                    <LinearProgress variant='determinate' value={(debit - min) * 100 / (max - min) }  />
                 </CardContent>
             </Card>
         );
