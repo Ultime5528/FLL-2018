@@ -5,11 +5,13 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
+import Button from 'material-ui/Button';
 import MenuIcon from 'material-ui-icons/Menu';
 import Drawer from 'material-ui/Drawer'
 import {MenuItem} from 'material-ui/Menu'
 import Divider from 'material-ui/Divider'
 import Logo from './Digito.svg'
+import UltimeLogo from './Ultime-22369.svg'
 import TuileDebit from './TuileDebit'
 import TuileConso from './TuileConso'
 import Grid from 'material-ui/Grid'
@@ -42,6 +44,11 @@ const styles = {
   drawerLogo : {
     height: 100,
     paddingBottom: 16
+  },
+
+  logoBar : {
+    height: 48,
+    paddingBottom: 0
   },
   
   tuileContainer: {
@@ -133,10 +140,22 @@ class App extends React.Component {
     </Grid>
   );
 
+  reset() {
+    fetch('/reset', {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/x-www-form-urlencoded"
+      }),
+      body: JSON.stringify(new Date())
+    });
+  }
+
   render() {
     const { classes } = this.props;
 
     let messages = [];
+
+    let sommeConso = 0;
 
     if(this.state.debits[0] && this.state.debits[1]){
       
@@ -146,7 +165,12 @@ class App extends React.Component {
 
       console.log(today);
 
-      this.state.debits[0].totalConso = 0;
+      {(this.state.debits[0].totalConso + this.state.debits[1].totalConso) &&
+        <div>
+          <Typography variant='title'>Félicitations!</Typography>
+          <Typography variant='subheading'>{Messages.felicitations[Math.floor(Math.random() * Messages.felicitations.length)].texte}</Typography>
+          <Typography variant='subheading'><a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau'>Ville de Trois-Rivières -> Eau</a></Typography>
+        </div>}[0].totalConso = 0;
       this.state.debits[1].totalConso = 0;
 
       for(let i = 0; i < this.state.consommations.length; i++){
@@ -178,9 +202,19 @@ class App extends React.Component {
       if(this.state.debits[0].totalConso + this.state.debits[1].totalConso >= 365)
         messages.push(Messages.conseilsEnsemble[Math.floor(Math.random() * Messages.conseilsEnsemble.length)]);
 
-    }
 
- 
+      console.log("Total conso");
+      console.log(this.state.debits[0].totalConso);
+      console.log(this.state.debits[1].totalConso);
+
+      sommeConso = this.state.debits[0].totalConso + this.state.debits[1].totalConso;
+
+      if(isNaN(sommeConso))
+        sommeConso = 0;
+      
+    }
+    
+    console.log('Somme conso : ' + sommeConso);
 
     return (
       <div>
@@ -197,6 +231,8 @@ class App extends React.Component {
             <Typography variant="title" color="inherit" className={classes.flex}>
               Historique
             </Typography>}
+            <img src={Logo} className = {classes.logoBar} style={{display: 'inline', paddingRight: 16}} alt='logo'/>
+            <img src={UltimeLogo} className = {classes.logoBar} style={{display: 'inline'}} alt='logo'/>
           </Toolbar>
         </AppBar>
 
@@ -210,6 +246,9 @@ class App extends React.Component {
           <Divider/>
           <MenuItem onClick={this.setPage(0)}>Accueil</MenuItem>
           <MenuItem onClick={this.setPage(1)}>Historique</MenuItem>
+          <Button variant="raised" color="primary" className={classes.button} onClick={this.reset}>
+            Réinitialiser
+          </Button>
         </Drawer>
         {this.state.page === 0 && <div style={{margin: 8}}>
 	    {messages.length > 0 &&
@@ -220,9 +259,16 @@ class App extends React.Component {
           </Paper>}
           {messages.length == 0 &&
           <Paper className={classes.conseils}>
-            <Typography variant='title'>Félicitations!</Typography>
-            <Typography variant='subheading'>{Messages.felicitations[Math.floor(Math.random() * Messages.felicitations.length)].texte}</Typography>
-            <Typography variant='subheading'><a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau'>Ville de Trois-Rivières -> Eau</a></Typography>
+          {(sommeConso > 0) &&
+            <div>
+              <Typography variant='title'>Félicitations!</Typography>
+              <Typography variant='subheading'>{Messages.felicitations[Math.floor(Math.random() * Messages.felicitations.length)].texte}</Typography>
+              <Typography variant='subheading'><a target="_blank" href='http://www.v3r.net/services-au-citoyen/eau'>Ville de Trois-Rivières -> Eau</a></Typography>
+            </div>}
+            {(sommeConso <= 0) &&
+            <div>
+              <Typography variant='title'>Bienvenue!</Typography>
+            </div>}
           </Paper>}
           <Grid container spacing={16} style={{margin: 0, width:'100%'}} className={classes.tuileContainer}>
             {this.state.debits.map(this.mapDebitTuiles(classes.tuile))}

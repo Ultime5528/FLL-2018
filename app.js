@@ -12,6 +12,7 @@ var db = require('rethinkdb');
 var index = require('./routes/index');
 var debit = require('./routes/debit');
 var consommation = require('./routes/consommation');
+var reset = require('./routes/reset');
 
 // Socket.io
 var app = express();
@@ -46,6 +47,7 @@ app.use(express.static(`${__dirname}/client/build`));
 app.use('/', index);
 app.use('/debit', debit);
 app.use('/consommation', consommation);
+app.use('/reset', reset);
 
 io.on('connection', function(socket) {
   console.log('a user connected');
