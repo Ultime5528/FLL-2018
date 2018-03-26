@@ -22,12 +22,21 @@ db.connect(config.rethinkdb)
   .then(conn => db.table('debit').orderBy({index: 'id'}).changes().run(conn, function(err, cursor){
     cursor.each((err, row) => {
       if (err) throw err;
-      console.log(row);
+
       if(row.new_val != null)
         io.emit('debit', row.new_val);
     });
   }));
 
+db.connect(config.rethinkdb)
+.then(conn => db.table('consommation').changes().run(conn, function(err, cursor) {
+  if(err) throw err;
+  cursor.each((err, row) => {
+    if(err) throw err;
+
+    io.emit('consommation', row);
+  });
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

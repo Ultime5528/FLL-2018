@@ -1,9 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Card, { CardContent } from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
-import { LinearProgress } from 'material-ui/Progress'
 import Divider from 'material-ui/Divider'
 
 const styles = theme => ({
@@ -13,8 +11,6 @@ const styles = theme => ({
     }
 });
 
-const min = 0;
-const max = 5;
 
 class TuileConso extends React.Component {
 
